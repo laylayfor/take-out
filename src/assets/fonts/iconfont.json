@@ -1,0 +1,86 @@
+{
+  "id": "3623232",
+  "name": "take-out",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "外卖管理系统",
+  "glyphs": [
+    {
+      "icon_id": "1108378",
+      "name": "后台1",
+      "font_class": "home",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "1506751",
+      "name": "账户",
+      "font_class": "account",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "1727458",
+      "name": "224用户-线性",
+      "font_class": "user",
+      "unicode": "e8c8",
+      "unicode_decimal": 59592
+    },
+    {
+      "icon_id": "2076277",
+      "name": " 店铺",
+      "font_class": "shop",
+      "unicode": "e895",
+      "unicode_decimal": 59541
+    },
+    {
+      "icon_id": "2892820",
+      "name": "订单",
+      "font_class": "order",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "4354835",
+      "name": "闭眼睛",
+      "font_class": "eye-close",
+      "unicode": "e901",
+      "unicode_decimal": 59649
+    },
+    {
+      "icon_id": "4539910",
+      "name": "商品",
+      "font_class": "goods",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "9167277",
+      "name": "外卖",
+      "font_class": "take-out",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "10937704",
+      "name": "锁",
+      "font_class": "lock",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "11372728",
+      "name": "眼睛",
+      "font_class": "eye-open",
+      "unicode": "e8bf",
+      "unicode_decimal": 59583
+    },
+    {
+      "icon_id": "12889878",
+      "name": "统计分析-常规统计",
+      "font_class": "total",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    }
+  ]
+}
