@@ -6,7 +6,8 @@
             </span>
             外卖商品中心
         </div>
-        <el-menu default-active="2" background-color="#304156" text-color="#fff" unique-opened router>
+        <el-menu :default-active="$route.path" background-color="#304156" text-color="#fff" :unique-opened='false'
+            router>
             <!-- 有子盒子 -->
 
             <!-- 后台首页 -->
@@ -69,9 +70,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-menu {
+    border-right: none;
+
+    .el-menu--inline {
+        .el-menu-item {
+
+            background: darken($bg, 5%) !important;
+
+            &:hover {
+                background: darken($bg, 10%) !important;
+
+            }
+        }
+
+    }
+
+}
+
+
 .left-menu {
     flex: none;
-    width: 250px;
+    width: 210px;
     background-color: $bg;
     overflow-y: scroll;
 
@@ -84,7 +104,7 @@ export default {
         position: relative;
         height: 70px;
         line-height: 70px;
-        font-size: 20px;
+        font-size: 18px;
         padding-left: 90px;
         background-color: $bg;
         color: $white;
