@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 // 引入页面级组件  [import 静态引入,预编译时就引入，可以加快首屏显示速度]
 import Layout from '@/layout';
 import Login from '@/views/login';
+import Register from '@/views/register';
 // import { component } from 'vue/types/umd';
 
 // 
@@ -133,6 +134,9 @@ VueRouter.prototype.push = function push(location) {
 const routes = [{
         path: '/login',
         component: Login
+    }, {
+        path: '/register',
+        component: Register,
     },
     {
         path: '/',

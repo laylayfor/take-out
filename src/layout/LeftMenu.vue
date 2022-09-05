@@ -6,6 +6,11 @@
             </span>
             外卖商品中心
         </div>
+        <!-- default-active: 激活当前菜单的index   
+            $route.path: 获取当前路由地址
+            router: 启用vue-router，激活导航时以index作为path跳转
+            unique-opened: 
+        -->
         <el-menu :default-active="$route.path" background-color="#304156" text-color="#fff" :unique-opened='false'
             router>
             <!-- 有子盒子 -->

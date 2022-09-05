@@ -1,0 +1,15 @@
+{
+    "accountList": [{
+        "account": "小王",
+        "userGroup": "超级管理员",
+        "time": "2016-05-02"
+    }, {
+        "account": "小王",
+        "userGroup": "超级管理员",
+        "time": "2016-05-02"
+    }, {
+        "account": "小王",
+        "userGroup": "超级管理员",
+        "time": "2016-05-02"
+    }]
+}
