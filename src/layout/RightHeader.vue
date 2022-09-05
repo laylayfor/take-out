@@ -2,10 +2,10 @@
     <div class="right-header">
         <!-- 面包屑导航 -->
         <el-breadcrumb separator=">">
-            <el-breadcrumb-item :to="{ path: '$route.path' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in calcBreadList2" :key="item.path" :to="item.path">{{ item.title }}
+            </el-breadcrumb-item>
+
+
         </el-breadcrumb>
         <!-- 右侧下拉菜单和头像 -->
         <div class="header-avatar">
@@ -31,14 +31,51 @@ export default {
     data() {
         return {
             avatar: require('./../assets/images/infor.jpg'),
+            // breadList: [],
+        }
+    },
+    // 方式2： 计算属性方法
+    computed: {
+        // 数据函数， return 的值赋值给数据函数上，这个值会挂载在this上
+        calcBreadList2() {
+            const temp = [{ path: '/', title: '首页', }];
+            this.$route.matched.forEach(v => {
+                // 判断mate中有 path 的对象
+                if (v.meta?.path) {
+                    temp.push(v.meta);
+                }
+            })
+            return temp;
         }
     },
     methods: {
         handleCommand(command) {
             console.log(command);
             this.$router.push(command);
-        }
-    }
+        },
+        // 计算面包屑导航
+        // 方式1： 侦听器方法
+        // calcBreadList() {
+        //     // console.log(this.$route.matched);
+        //     this.breadList = [{ path: '/', title: '首页', }];
+        //     this.$route.matched.forEach(v => {
+        //         // 判断mate中有 path 的对象
+        //         if (v.meta?.path) {
+        //             this.breadList.push(v.meta);
+        //         }
+        //     })
+        // }
+    },
+    // watch: {
+    //     '$route.path': {
+    //         handler() {
+    //             this.calcBreadList();
+    //         },
+    //         deep: true, // 深度监听
+    //         immediate: true, // 立即执行handler里面的代码
+    //     }
+
+    // },
 }
 </script>
 

@@ -145,6 +145,7 @@ const routes = [{
     {
         path: '/home',
         component: Layout,
+        meta: { path: '/home', title: '首页' },
         children: [{
             path: '',
             component: () => {
@@ -155,6 +156,7 @@ const routes = [{
     {
         path: '/order',
         component: Layout,
+        meta: { path: '/order', title: '订单' },
         children: [{
             path: '/order',
             component: () => {
@@ -166,18 +168,23 @@ const routes = [{
         path: '/goods',
         component: Layout,
         redirect: '/goods/goods-list',
+        meta: { path: '/goods', title: '商品管理' },
         children: [{
             path: '/goods/goods-list',
+            meta: { path: '/goods/goods-list', title: '商品列表' },
             component: () => {
                 return import ('@/views/goods/goods-list.vue')
             }
         }, {
             path: '/goods/goods-add',
+            meta: { path: '/goods/goods-add', title: '商品添加' },
+
             component: () => {
                 return import ('@/views/goods/goods-add.vue')
             }
         }, {
             path: '/goods/goods-cate',
+            meta: { path: '/goods/goods-cate', title: '商品分类' },
             component: () => {
                 return import ('@/views/goods/goods-cate.vue')
             }
@@ -186,6 +193,7 @@ const routes = [{
     {
         path: '/shop',
         component: Layout,
+        meta: { path: '/shop', title: '店铺管理' },
         children: [{
             path: '/shop',
             component: () => {
@@ -197,26 +205,31 @@ const routes = [{
         path: '/account',
         component: Layout,
         redirect: '/account/account-list',
+        meta: { path: '/account', title: '账号管理' },
         children: [{
                 path: '/account/account-list',
+                meta: { path: '/account/account-list', title: '账号列表' },
                 component: () => {
                     return import ('@/views/account/account-list.vue');
                 }
             },
             {
                 path: '/account/account-add',
+                meta: { path: '/account/account-add', title: '添加账号' },
                 component: () => {
                     return import ('@/views/account/account-add.vue');
                 }
             },
             {
                 path: '/account/password-modify',
+                meta: { path: '/account/password-modify', title: '修改密码' },
                 component: () => {
                     return import ('@/views/account/password-modify.vue');
                 }
             },
             {
                 path: '/account/person',
+                meta: { path: '/account/person', title: '个人中心' },
                 component: () => {
                     return import ('@/views/account/person.vue');
                 }
@@ -227,13 +240,16 @@ const routes = [{
         path: '/total',
         component: Layout,
         redirect: '/total/total-goods',
+        meta: { path: '/total', title: '销售统计' },
         children: [{
             path: '/total/total-goods',
+            meta: { path: '/total/total-goods', title: '商品统计' },
             component: () => {
                 return import ('@/views/total/total-goods.vue')
             }
         }, {
             path: '/total/total-order',
+            meta: { path: '/total/total-order', title: '订单统计' },
             component: () => {
                 return import ('@/views/total/total-order.vue')
             }

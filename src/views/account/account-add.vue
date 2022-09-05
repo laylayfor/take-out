@@ -30,7 +30,9 @@
 </template>
 
 <script>
+import { checkAccount, checkPassword } from '@/utils/utils';
 export default {
+
     data() {
         return {
             formData: {
@@ -40,19 +42,18 @@ export default {
             },
             rules: {
                 account: [
-                    // required:true 必填   message 提示信息   trigger 触发方式，失焦
-                    { required: true, message: "请输入用户名", trigger: "blur" },
-                    { min: 3, max: 7, message: "长度在 3 到 7 个字符", trigger: "blur" },
+                    // validator 属性值是校验函数
+                    {
+                        validator: checkAccount,
+                        trigger: 'blur',
+                    }
                 ],
                 password: [
                     // required:true 必填   message 提示信息   trigger 触发方式，失焦
-                    { required: true, message: "请输入密码", trigger: "blur" },
                     {
-                        min: 6,
-                        max: 12,
-                        message: "长度在 6 到 12 个字符",
-                        trigger: "blur",
-                    },
+                        validator: checkPassword,
+                        trigger: 'blur',
+                    }
                 ],
                 userGroup: [
                     { required: true, message: "请选择用户组", trigger: "blur" },
