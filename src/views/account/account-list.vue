@@ -42,8 +42,9 @@
 </template>
 
 <script>
-
+import { getUserListReq } from '@/api/user';
 export default {
+
     data() {
         return {
             tableData: [],
@@ -51,8 +52,12 @@ export default {
         }
     },
     mounted() {
-        fetch('http://localhost:3000/accountList').then(res => res.json()).then(res => {
-            this.tableData = res;
+        // fetch('http://localhost:3000/accountList').then(res => res.json()).then(res => {
+        //     this.tableData = res;
+        // })
+        this.tableData = getUserListReq().then(res => {
+            // return res.data;
+            console.log(res.data);
         })
     },
     methods: {

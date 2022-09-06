@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import { checkAccount, checkPassword } from '@/utils/utils';
+import { checkAccount, checkPassword } from "@/utils/utils";
+import { userAddReq } from "@/api/user";
 export default {
-
     data() {
         return {
             formData: {
@@ -45,15 +45,15 @@ export default {
                     // validator 属性值是校验函数
                     {
                         validator: checkAccount,
-                        trigger: 'blur',
-                    }
+                        trigger: "blur",
+                    },
                 ],
                 password: [
                     // required:true 必填   message 提示信息   trigger 触发方式，失焦
                     {
                         validator: checkPassword,
-                        trigger: 'blur',
-                    }
+                        trigger: "blur",
+                    },
                 ],
                 userGroup: [
                     { required: true, message: "请选择用户组", trigger: "blur" },
@@ -63,9 +63,19 @@ export default {
     },
     methods: {
         register() {
-            this.$refs.formRef.validate((valid) => {
+            this.$refs.formRef.validate(async (valid) => {
                 if (valid) {
-                    console.log("注册成功");
+                    // 发送请求
+                    let res = await userAddReq(this.formData);
+                    // console.log(res.data);
+                    // 解构数据
+                    let { code, msg, role, token } = res.data;
+                    if (code === 0) {
+                        this.$message.success(msg);
+                        this.$router.push('/account');
+                    } else {
+                        this.$message.error(msg);
+                    }
                 } else {
                     console.log("注册失败");
                 }

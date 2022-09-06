@@ -34,6 +34,9 @@
 
 <script>
 import { checkAccount, checkPassword } from '@/utils/utils';
+// 引入ajax函数
+import { checkLoginReq } from '@/api/user';
+// console.log(checkLoginReq);
 export default {
     data() {
         return {
@@ -72,12 +75,27 @@ export default {
                 this.isPassword = 'password';
             }
         },
-        submit(formName) {
-            this.$refs[formName].validate((valid) => {
+        submit() {
+            this.$refs.formRef.validate(async (valid) => {
                 if (valid) {
-                    alert('submit!');
+                    // 发送请求
+                    let res = await checkLoginReq(this.formData);
+                    // code 状态码
+                    // msg 提示信息
+                    // role 当前用户角色
+                    // token  令牌，包含个人信息
+                    let { code, msg, role, token } = res.data;
+                    if (code === 0) {
+                        // 弹出提示信息
+                        this.$message.success(msg);
+                        // 把 token存入本地
+                        localStorage.setItem('t_k', token);
+                        // 跳转到首页
+                        this.$router.push('/home');
+                    } else {
+                        this.$message.error(msg);
+                    }
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             })
@@ -94,23 +112,29 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .el-input__inner {
-    background: transparent;
-    padding-left: 18px !important;
+    background-color: transparent !important;
+    padding: 0 20px 0 12px !important;
     color: $white;
     font-size: 16px;
-
-    // outline: none;
-    span {
-        font-size: 16px;
-        color: $white;
-        padding: 0 5px;
-    }
-
-    input {
-        border: 0;
-
-    }
 }
+
+::v-deep input.el-input__inner {
+    margin: 0 10px;
+    border: 0;
+}
+
+// outline: none;
+span {
+    font-size: 16px;
+    color: $white;
+    padding: 0 5px;
+}
+
+input {
+    border: 0;
+
+}
+
 
 .login {
     display: flex;
