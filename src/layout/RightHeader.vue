@@ -11,7 +11,7 @@
         <div class="header-avatar">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
-                    欢迎您<i class="el-icon-arrow-down el-icon--right"></i>
+                    欢迎您 {{userMsg.account}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="/account/person">个人中心</el-dropdown-item>
@@ -21,17 +21,23 @@
 
             </el-dropdown>
             <!-- 头像 -->
-            <el-avatar :size="40" :src="avatar"></el-avatar>
+            <el-avatar :size="40" :src="userMsg.imgUrl"></el-avatar>
         </div>
     </div>
 </template>
 
 <script>
+import { getUserMsgReq } from '@/api/user';
 export default {
     data() {
         return {
-            avatar: require('./../assets/images/infor.jpg'),
-            // breadList: [],
+            userMsg: {
+                id: '',
+                ctime: '',
+                account: '',
+                userGroup: '',
+                imgUrl: '',
+            }
         }
     },
     // 方式2： 计算属性方法
@@ -48,10 +54,28 @@ export default {
             return temp;
         }
     },
+    created() {
+        this.getData();
+        this.$bus.$on('upLoadAvatar', () => {
+            // 重新拉取用户信息
+            this.getData();
+        })
+    },
     methods: {
         handleCommand(command) {
             console.log(command);
             this.$router.push(command);
+            if (command === '/login') {
+                localStorage.clear();
+            }
+        },
+        // 初始化页面获取数据
+        async getData() {
+            let res = await getUserMsgReq();
+            // let { id, ctiem, account, userGroup, imgUrl } = res.data;
+            this.userMsg = res.data;
+            // 将数据存入本地，方便其他页面使用
+            localStorage.setItem('userMsg', JSON.stringify(this.userMsg));
         },
         // 计算面包屑导航
         // 方式1： 侦听器方法

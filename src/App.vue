@@ -5,10 +5,13 @@
         <!-- 测试element-ui是否导入
         <el-button>按钮</el-button> -->
         <router-view></router-view>
+
     </div>
 </template>
 
 <script>
+import { hkdfSync } from 'crypto';
+
 export default {
 
 }
