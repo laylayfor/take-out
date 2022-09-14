@@ -4,7 +4,24 @@
             <!-- 标题 -->
             <div class="header" slot="header">
                 <span>商品分类</span>
-                <el-button type="primary" size="small" @click="handleAddCate">添加分类</el-button>
+                <!-- 添加商品分类 -->
+                <el-button type="primary" size="small" @click="centerDialogVisible = true">添加分类
+                </el-button>
+                <el-dialog title="添加分类" :visible.sync="centerDialogVisible" width="60%" center>
+                    <el-form :model="formData" width="100%">
+                        <el-form-item label="分类名称">
+                            <el-input v-model="formData.cateName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="即时配送">
+                            <el-switch v-model="formData.state"></el-switch>
+                        </el-form-item>
+                    </el-form>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button size="mini" @click="centerDialogVisible = false">取 消</el-button>
+                        <el-button size="mini" type="primary" @click="handleAddCate();centerDialogVisible = false">确 定
+                        </el-button>
+                    </span>
+                </el-dialog>
             </div>
             <!-- 表格内容 -->
             <el-table :data="tableData">
@@ -42,7 +59,7 @@
 </template>
 
 <script>
-import { getCateListReq, editCateReq, delCateReq } from "@/api/goods";
+import { getCateListReq, editCateReq, delCateReq, addCateReq } from "@/api/goods";
 // import tableWidth from '@/mixins/tableWidth';
 export default {
     // mixins: [tableWidth],
@@ -52,6 +69,11 @@ export default {
             currentPage: 1,
             pageSize: 5,
             total: 0, // 总条数
+            centerDialogVisible: false,
+            formData: {
+                cateName: '',
+                state: true,
+            }
         };
     },
     methods: {
@@ -80,8 +102,16 @@ export default {
         },
 
         // 添加分类
-        handleAddCate() {
-            console.log("添加分类");
+        async handleAddCate() {
+            // console.log("添加分类");
+            // 修改数据格式： state,true为1，false为0
+            let temp = { ...this.formData, state: this.formData.state ? 1 : 0 }
+            // 向后端提交数据
+            let res = await addCateReq(temp);
+            let { code } = res;
+            if (code === 0) {
+                this.getData();
+            }
         },
         // 编辑
         async handleEdit(row) {
@@ -105,8 +135,13 @@ export default {
                 center: true
             }).then(async () => {
                 let id = row.id
+                // 向后端提交数据
                 let res = await delCateReq({ id });
-                this.getData();
+                let { code } = res;
+                // 判断是否提交成功，提交成功则重新拉取数据
+                if (code === 0) {
+                    this.getData();
+                }
                 // console.log(res);
             }).catch(() => {
                 this.$message.info('已取消删除')
