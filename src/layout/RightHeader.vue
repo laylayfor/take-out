@@ -4,21 +4,18 @@
         <el-breadcrumb separator=">">
             <el-breadcrumb-item v-for="item in calcBreadList2" :key="item.path" :to="item.path">{{ item.title }}
             </el-breadcrumb-item>
-
-
         </el-breadcrumb>
         <!-- 右侧下拉菜单和头像 -->
         <div class="header-avatar">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
-                    欢迎您 {{userMsg.account}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    欢迎您 {{ userMsg.account
+                    }}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="/account/person">个人中心</el-dropdown-item>
                     <el-dropdown-item command="/login">退出登录</el-dropdown-item>
-
                 </el-dropdown-menu>
-
             </el-dropdown>
             <!-- 头像 -->
             <el-avatar :size="40" :src="userMsg.imgUrl"></el-avatar>
@@ -27,46 +24,47 @@
 </template>
 
 <script>
-import { getUserMsgReq } from '@/api/user';
+import { getUserMsgReq } from "@/api/user";
+import local from "@/utils/local";
 export default {
     data() {
         return {
             userMsg: {
-                id: '',
-                ctime: '',
-                account: '',
-                userGroup: '',
-                imgUrl: '',
-            }
-        }
+                id: "",
+                ctime: "",
+                account: "",
+                userGroup: "",
+                imgUrl: "",
+            },
+        };
     },
     // 方式2： 计算属性方法
     computed: {
         // 数据函数， return 的值赋值给数据函数上，这个值会挂载在this上
         calcBreadList2() {
-            const temp = [{ path: '/', title: '首页', }];
-            this.$route.matched.forEach(v => {
+            const temp = [{ path: "/", title: "首页" }];
+            this.$route.matched.forEach((v) => {
                 // 判断mate中有 path 的对象
                 if (v.meta?.path) {
                     temp.push(v.meta);
                 }
-            })
+            });
             return temp;
-        }
+        },
     },
     created() {
         this.getData();
-        this.$bus.$on('upLoadAvatar', () => {
+        this.$bus.$on("upLoadAvatar", () => {
             // 重新拉取用户信息
             this.getData();
-        })
+        });
     },
     methods: {
         handleCommand(command) {
             console.log(command);
             this.$router.push(command);
-            if (command === '/login') {
-                localStorage.clear();
+            if (command === "/login") {
+                local.clear();
             }
         },
         // 初始化页面获取数据
@@ -75,8 +73,8 @@ export default {
             // let { id, ctiem, account, userGroup, imgUrl } = res.data;
             this.userMsg = res.data;
             // 将数据存入本地，方便其他页面使用
-            localStorage.setItem('userMsg', JSON.stringify(this.userMsg));
-        },
+            local.set("userMsg", res.data);
+        }
         // 计算面包屑导航
         // 方式1： 侦听器方法
         // calcBreadList() {
@@ -97,10 +95,10 @@ export default {
     //         },
     //         deep: true, // 深度监听
     //         immediate: true, // 立即执行handler里面的代码
-    //     }
 
-    // },
-}
+
+
+};
 </script>
 
 <style lang="scss" scoped>

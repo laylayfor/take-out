@@ -25,6 +25,7 @@
 
 <script>
 import { editAvatarReq } from '@/api/user';
+import local from '@/utils/local'
 export default {
     data() {
         return {
@@ -51,13 +52,10 @@ export default {
             let { code, msg } = res.data;
             console.log(code);
             if (code === 0) {
-                this.$message.success(msg);
+
                 // 中央事件总线，通知父组件更新头像
                 this.$bus.$emit('upLoadAvatar');
-            } else {
-                this.$message.error(msg);
             }
-
         },
         // 图片成功上传回调
         handleAvatarSuccess(res) {
@@ -90,13 +88,13 @@ export default {
 
     },
     created() {
-        this.userMsg = JSON.parse(localStorage.getItem('userMsg'));
+        this.userMsg = local.get('userMsg');
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.avatar-uploader ::v-deep .el-upload {
+.avatar-uploader :deep(.el-upload) {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;

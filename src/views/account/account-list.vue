@@ -126,11 +126,9 @@ export default {
             let res = await delUserReq({ id });
             let { code, msg } = res.data;
             if (code === 0) {
-                this.$message.success(msg);
                 // 删除完成后重新渲染页面
                 this.getData();
             } else {
-                this.$message.error(msg);
             }
         },
         // 编辑
@@ -167,7 +165,7 @@ export default {
             this.currentPage = val;
             // 再次发送请求
             this.getData();
-            og(`当前页: ${val}`);
+            console.log(`当前页: ${val}`);
         },
         // 取消选择
 
@@ -189,16 +187,9 @@ export default {
                 // 发送请求
                 let res = await batchDelUserReq({ ids: this.ids })
                 let { code, msg } = res;
-                if (code === 0) {
-                    this.$message.success(msg);
-                } else {
-                    this.$message.error(msg);
-                }
 
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+
+
                 this.getData();
             }).catch(() => {
                 this.$message({
@@ -221,11 +212,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-pagination {
+:deep(.el-pagination) {
     margin-top: 20px;
 }
 
-::v-deep .el-table-column--selection .cell {
+:deep(.el-table-column--selection .cell) {
     padding: 0 10px;
 }
 
@@ -233,7 +224,7 @@ export default {
     margin-top: 20px;
 }
 
-::v-deep .el-button {
+:deep(.el-button) {
     margin: 0 5px;
 }
 </style>

@@ -24,9 +24,9 @@
                     <el-button type="primary" @click="submit('formRef')" class="btn-login">登录</el-button>
                 </el-form-item>
             </el-form>
-            <div class="tips">
+            <!-- <div class="tips">
                 没有账号？<span class="register" @click="toRegister">马上注册</span>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -36,6 +36,8 @@
 import { checkAccount, checkPassword } from '@/utils/utils';
 // 引入ajax函数
 import { checkLoginReq } from '@/api/user';
+import local from '@/utils/local';
+
 // console.log(checkLoginReq);
 export default {
     data() {
@@ -89,36 +91,32 @@ export default {
                         // 弹出提示信息
                         this.$message.success(msg);
                         // 把 token存入本地
-                        localStorage.setItem('t_k', token);
-                        // 跳转到首页
-                        this.$router.push('/home');
-                    } else {
-                        this.$message.error(msg);
+                        local.set('t_k', token);
+                        let { redirect } = this.$route.query;
+                        // 跳转到首页 或重定向地址
+                        this.$router.push(redirect || '/home');
                     }
                 } else {
                     return false;
                 }
             })
         },
-        toRegister() {
-            this.$router.push('/register');
-        }
+        // toRegister() {
+        //     this.$router.push('/register');
+        // }
     },
-
-
-
 }
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-input__inner {
+:deep(.el-input__inner) {
     background-color: transparent !important;
     padding: 0 20px 0 12px !important;
     color: $white;
     font-size: 16px;
 }
 
-::v-deep input.el-input__inner {
+:deep(input.el-input__inner) {
     margin: 0 10px;
     border: 0;
 }

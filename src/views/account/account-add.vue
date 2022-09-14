@@ -33,6 +33,34 @@
 import { checkAccount, checkPassword } from "@/utils/utils";
 import { userAddReq } from "@/api/user";
 export default {
+    data() {
+        return {
+            formData: {
+                account: "",
+                password: "",
+                userGroup: "",
+            },
+            rules: {
+                account: [
+                    // validator 属性值是校验函数
+                    {
+                        validator: checkAccount,
+                        trigger: "blur",
+                    },
+                ],
+                password: [
+                    // required:true 必填   message 提示信息   trigger 触发方式，失焦
+                    {
+                        validator: checkPassword,
+                        trigger: "blur",
+                    },
+                ],
+                userGroup: [
+                    { required: true, message: "请选择用户组", trigger: "blur" },
+                ],
+            },
+        };
+    },
     methods: {
         register() {
             this.$refs.formRef.validate(async (valid) => {
@@ -43,10 +71,7 @@ export default {
                     // 解构数据
                     let { code, msg, role, token } = res.data;
                     if (code === 0) {
-                        this.$message.success(msg);
                         this.$router.push('/account');
-                    } else {
-                        this.$message.error(msg);
                     }
                 } else {
                     console.log("注册失败");
@@ -79,14 +104,7 @@ html {
     height: 100%;
 }
 
-::v-deep .el-input__inner {
+:deep(.el-input__inner) {
     width: 250px;
 }
-
-// ::v-deep .el-card.is-always-shadow {
-//     width: 100%;
-//     height: 100%;
-// }
-
-// }
 </style>
