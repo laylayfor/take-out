@@ -7,12 +7,12 @@
                 <!-- 添加商品分类 -->
                 <el-button type="primary" size="small" @click="centerDialogVisible = true">添加分类
                 </el-button>
-                <el-dialog title="添加分类" :visible.sync="centerDialogVisible" width="60%" center>
-                    <el-form :model="formData" width="100%">
+                <el-dialog title="添加分类" :visible.sync="centerDialogVisible" width="50%" center>
+                    <el-form :model="formData" label-width="90px">
                         <el-form-item label="分类名称">
                             <el-input v-model="formData.cateName"></el-input>
                         </el-form-item>
-                        <el-form-item label="即时配送">
+                        <el-form-item label="是否启用">
                             <el-switch v-model="formData.state"></el-switch>
                         </el-form-item>
                     </el-form>
@@ -167,5 +167,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+:deep(.el-dialog) {
+    min-width: 450px;
 }
 </style>
