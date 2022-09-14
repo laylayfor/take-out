@@ -25,3 +25,11 @@ export const editCateReq = (data) => {
         data,
     })
 };
+/* 删除分类 */
+export const delCateReq = (params) => {
+    return request({
+        url: '/goods/delcate',
+        method: 'get',
+        params,
+    })
+}

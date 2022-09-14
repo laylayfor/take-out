@@ -25,8 +25,7 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="handleEdit(scope.row)" :type="scope.row.isEdit? 'success':'' ">
-                            {{scope.row.isEdit ? '完成' :
-                            '编辑'}}
+                            {{scope.row.isEdit ? '完成' :'编辑'}}
                         </el-button>
                         <el-button size="mini" type="danger" @click="handleDelete( scope.$index,scope.row)">删除
                         </el-button>
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-import { getCateListReq, editCateReq } from "@/api/goods";
+import { getCateListReq, editCateReq, delCateReq } from "@/api/goods";
 // import tableWidth from '@/mixins/tableWidth';
 export default {
     // mixins: [tableWidth],
@@ -98,12 +97,24 @@ export default {
             }
         },
         // 删除
-        handleDelete() {
-            console.log("删除");
+        handleDelete(index, row) {
+            this.$confirm('此操作将删除该分类, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(async () => {
+                let id = row.id
+                let res = await delCateReq({ id });
+                this.getData();
+                // console.log(res);
+            }).catch(() => {
+                this.$message.info('已取消删除')
+            });
         },
         // 改变页面
         handleCurrentChange(val) {
-            console.log('改变页面');
+            // console.log('改变页面');
             // 将页码重新赋值
             this.currentPage = val;
             // 重新拉取数据
