@@ -47,7 +47,13 @@ const routes = [{
         children: [{
             path: '/order',
             component: () => {
-                return import ('@/views/order')
+                return import ('@/views/order/index.vue')
+            }
+        }, {
+            path: '/order/order-detail',
+            meta: { path: '/order/order-detail', title: '订单详情' },
+            component: () => {
+                return import ('@/views/order/order-detail.vue')
             }
         }]
     },

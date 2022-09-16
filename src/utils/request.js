@@ -8,7 +8,8 @@ import local from '@/utils/local';
 // 引入message弹窗
 import { Message } from 'element-ui';
 // 默认请求地址
-axios.defaults.baseURL = 'http://localhost:5000';
+// axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = '';
 // 默认超时时间
 axios.defaults.timeout = 10000;
 // 请求拦截器: 携带统一参数
@@ -32,7 +33,6 @@ axios.interceptors.response.use((response) => {
     if (code === 0) {
         Message.success(msg);
         // console.log('响应式拦截器111');
-
     }
     if (code === 1) {
         Message.success(msg);
