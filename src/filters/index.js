@@ -14,24 +14,36 @@ export const formatDate = (data, changeNmuber) => {
 
     if (changeNmuber === 1) {
         // a 为 1 时返回 年-月-日
-        return [year, month, date].map(v => {
-            return String(v).padStart(2, '0');
-        }).join('-');
+        return [year, month, date]
+            .map((v) => {
+                return String(v).padStart(2, "0");
+            })
+            .join("-");
     } else if (changeNmuber === 2) {
         // a 为 2 时返回 时:分:秒
-        return [h, m, s].map(v => {
-            return String(v).padStart(2, '0');
-        }).join(':');
+        return [h, m, s]
+            .map((v) => {
+                return String(v).padStart(2, "0");
+            })
+            .join(":");
     } else {
-        // 返回 年-月-日 时:分:秒 
-        return [year, month, date].map(v => {
-            return String(v).padStart(2, '0');
-        }).join('-') + ' ' + [h, m, s].map(v => {
-            return String(v).padStart(2, '0');
-        }).join(':');
+        // 返回 年-月-日 时:分:秒
+        return (
+            [year, month, date]
+            .map((v) => {
+                return String(v).padStart(2, "0");
+            })
+            .join("-") +
+            " " + [h, m, s]
+            .map((v) => {
+                return String(v).padStart(2, "0");
+            })
+            .join(":")
+        );
     }
 };
 // 处理数字，超过1000 加逗号
 export const formatNum = (number) => {
-    console.log('这是个过滤器!');
-}
+    number = number.toString();
+    return number.replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+};

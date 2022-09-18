@@ -4,12 +4,24 @@
       <!-- 头部标题 -->
       <div class="header" slot="header">
         <span>店铺管理</span>
-        <el-button type="primary" size="mini" @click="handleSave()"
+        <el-button
+          v-if="!isEdit"
+          type="primary"
+          size="mini"
+          @click="isEdit = !isEdit"
+          >编辑</el-button
+        >
+        <el-button v-else type="success" size="mini" @click="handleSave()"
           >保存</el-button
         >
       </div>
       <!-- 内容 -->
-      <el-form :model="formData" label-width="80px" size="mini">
+      <el-form
+        :disabled="!isEdit"
+        :model="formData"
+        label-width="80px"
+        size="mini"
+      >
         <!-- 店铺名称 -->
         <el-form-item label="店铺名称">
           <el-input v-model="formData.name"></el-input>
@@ -42,11 +54,13 @@
         <!-- 店铺图片 -->
         <el-form-item label="店铺图片">
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            :action="'/shop/upload'"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
+            :on-success="handleShopSuccess"
             :file-list="formData.pics"
+            :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -78,11 +92,11 @@
           </el-rate>
         </el-form-item>
         <!-- 销  量 -->
-        <el-form-item label="销    量">
+        <el-form-item label="销量">
           <el-input v-model="formData.sellCount"></el-input>
         </el-form-item>
         <!-- 活动 -->
-        <el-form-item label="活    动">
+        <el-form-item label="活动">
           <template>
             <el-checkbox-group v-model="formData.supports">
               <el-checkbox label="在线支付满28减5"></el-checkbox>
@@ -114,7 +128,8 @@
 </template>
 
 <script>
-import { getShopDetailReq } from "@/api/shop";
+import { getShopDetailReq, editShopReq } from "@/api/shop";
+
 export default {
   data() {
     return {
@@ -136,12 +151,22 @@ export default {
       API: "http://localhost:5000/",
       dialogImageUrl: "",
       dialogVisible: false,
+      isEdit: false, // 是否可编辑
     };
   },
   methods: {
     // 顶部按钮
     handleSave() {
-      console.log("保存");
+      //   console.log("保存");
+      // 重新修改数据格式
+      let { pics } = this.formData;
+      pics = pics.map((v) => {
+        return v.name;
+      });
+      console.log(pics);
+      let res = editShopReq({ ...this.formData, pics });
+      this.isEdit = !this.isEdit;
+      // let {}
     },
     // 获取数据
     async getData() {
@@ -149,40 +174,57 @@ export default {
       //   console.log(res.data);
       // 修改图片列表格式，转为 {name: ..., url: ...}
       let { pics } = res.data.data;
+      //   console.log(pics);
+
       pics = pics.map((v) => {
+        // console.log(v.name.name.name);
         return {
           name: v,
           url: this.API + "/upload/shop/" + v,
         };
       });
+      //   console.log(pics);
 
       this.formData = { ...res.data.data, pics };
-      //   console.log(this.formData);
+      console.log(this.formData);
     },
-    handleRemove(file) {
-      console.log(file);
+    // 店铺图片删除函数
+    handleRemove(file, filelist) {
+      console.log(filelist);
+      this.formData.pics = filelist;
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
+    // 店铺图片上传成功回调
+    handleShopSuccess(res, file) {
+      //   console.log(res, "---", file);
+      let { code, msg, imgUrl } = res;
+      let name = imgUrl.substr(imgUrl.lastIndexOf("/") + 1);
+      let url = this.API + "/upload/shop/" + name;
+      //   let { name, url } = file; // 在上传时，图片名字会被修改，所以没啥用。。。
+      this.formData.pics.push({ name, url });
+
+      console.log(this.formData.pics);
+    },
     // 图片成功上传回调
     handleAvatarSuccess(res) {
       // console.log(res);
-      //   let { code, avatar, msg } = res;
-      //   // console.log(res);
+      let { code, msg, imgUrl } = res;
+      console.log(res);
       //   // console.log(code, imgUrl, msg);
-      //   if (code === 0) {
-      //     this.formData.avatar = this.API + avatar;
-      //     console.log(this.formData.avatar);
-      //     this.uploadImg();
-      //     // this.getData();
-      //   } else {
-      //     this.$message.error(msg);
-      //   }
+      if (code === 0) {
+        this.formData.avatar = imgUrl.substr(imgUrl.lastIndexOf("/") + 1);
+        console.log(this.formData.avatar);
+        // this.uploadImg();
+        // this.getData();
+      } else {
+        this.$message.error(msg);
+      }
     },
     beforeAvatarUpload(file) {
-      const isJPGOrPNG = /(jpeg|png|gif)/.test(file.type);
+      const isJPGOrPNG = /(jpeg|png|gif|webp)/.test(file.type);
       const isLt3M = file.size / 1024 / 1024 < 3;
 
       if (!isJPGOrPNG) {
@@ -205,10 +247,12 @@ export default {
   width: 50%;
   min-width: 250px;
 }
+
 :deep(.header) {
   display: flex;
   justify-content: space-between;
 }
+
 .avatar-uploader :deep(.el-upload) {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
