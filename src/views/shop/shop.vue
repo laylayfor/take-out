@@ -141,10 +141,10 @@ export default {
         deliveryPrice: "", // 配送费
         deliveryTime: "", // 送达时间
         description: "", // 描述
-        score: "", // 评分
+        score: 1, // 评分
         sellCount: "", // 销量
         supports: "", // 活动
-        pics: "", // 店铺图片
+        pics: [], // 店铺图片
         date: "", // 营业时间
         minPrice: "", // 起送价格
       },
@@ -163,7 +163,7 @@ export default {
       pics = pics.map((v) => {
         return v.name;
       });
-      console.log(pics);
+      //   console.log(pics);
       let res = editShopReq({ ...this.formData, pics });
       this.isEdit = !this.isEdit;
       // let {}
@@ -206,17 +206,17 @@ export default {
       //   let { name, url } = file; // 在上传时，图片名字会被修改，所以没啥用。。。
       this.formData.pics.push({ name, url });
 
-      console.log(this.formData.pics);
+      //   console.log(this.formData.pics);
     },
     // 图片成功上传回调
     handleAvatarSuccess(res) {
       // console.log(res);
       let { code, msg, imgUrl } = res;
-      console.log(res);
+      //   console.log(res);
       //   // console.log(code, imgUrl, msg);
       if (code === 0) {
         this.formData.avatar = imgUrl.substr(imgUrl.lastIndexOf("/") + 1);
-        console.log(this.formData.avatar);
+        // console.log(this.formData.avatar);
         // this.uploadImg();
         // this.getData();
       } else {

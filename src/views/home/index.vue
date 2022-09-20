@@ -14,6 +14,8 @@
           }}</template>
         </card-list>
       </div>
+      <!-- echarts -->
+      <echarts-vue :echartsData="echartsData" v-if="flag"></echarts-vue>
     </el-card>
   </div>
 </template>
@@ -22,14 +24,18 @@
 import { getTotalDataReq, getOrderTotalDataReq } from "@/api/home";
 import CardList from "./CardList.vue";
 import { formatNum } from "@/filters/index";
+import EchartsVue from "../../components/Echarts.vue";
 export default {
   components: {
     CardList,
+    EchartsVue,
   },
   data() {
     return {
       //   totalData: {},
       cardData: [],
+      echartsData: {},
+      flag: false,
     };
   },
   methods: {
@@ -44,7 +50,30 @@ export default {
         todayOrder,
         totayAmount,
       } = res.data;
-      // 封装传入子组件的数据
+      //   console.log("orderData", orderData, amountData);
+      // 封装echarts的数据
+      this.echartsData = {
+        title: "数据统计",
+        legend: ["订单", "销售额"],
+        xdata: xData,
+        series: [
+          {
+            name: "订单",
+            type: "line",
+            stack: "Total",
+            data: orderData,
+          },
+          {
+            name: "销售额",
+            type: "line",
+            stack: "Total",
+            data: amountData,
+          },
+        ],
+      };
+      this.flag = true;
+      //   console.log("echartsData1", this.echartsData);
+      // 封装传入卡片子组件的数据
       this.cardData = [
         {
           name: "总订单",
@@ -67,12 +96,13 @@ export default {
           img: require("./../../assets/images/amount.svg"),
         },
       ];
-      console.log(res);
+      //   console.log(res);
     },
   },
   created() {
     this.getData();
   },
+  mounted() {},
 };
 </script>
 

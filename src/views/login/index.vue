@@ -54,6 +54,8 @@ import { checkAccount, checkPassword } from "@/utils/utils";
 // 引入ajax函数
 import { checkLoginReq } from "@/api/user";
 import local from "@/utils/local";
+// 引入创建路由函数
+import { createRouter } from "@/router";
 
 // console.log(checkLoginReq);
 export default {
@@ -107,8 +109,12 @@ export default {
           if (code === 0) {
             // 弹出提示信息
             // this.$message.success(msg);
+            // 把用户角色存到本地
+            local.set("role", role);
             // 把 token存入本地
             local.set("t_k", token);
+            // 登录时调用一次,存入信息之后，跳转页面之前
+            createRouter();
             let { redirect } = this.$route.query;
             // 跳转到首页 或重定向地址
             this.$router.push(redirect || "/home");

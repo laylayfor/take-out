@@ -38,8 +38,8 @@
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              format="yyyy-MM-dd hh:mm:ss"
-              value-format="yyyy-MM-dd hh:mm:ss"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyy-MM-dd HH:mm:ss"
             >
             </el-date-picker>
           </template>
@@ -147,7 +147,7 @@ export default {
       // 修改日期格式
       let date = JSON.stringify(this.formData.date);
       this.getData({ ...this.formData, date });
-      console.log(this.formData.date);
+      //   console.log(this.formData.date);
     },
     // 查看
     handleClick(row) {},

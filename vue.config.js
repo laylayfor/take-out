@@ -1,7 +1,7 @@
 module.exports = {
-    // productionSourceMap: false,
-    // assetsDir: 'static',
-    // publicPath: './',
+    productionSourceMap: false, // 去掉打包时生成的map文件
+    assetsDir: "static", // 静态资源目录名称
+    publicPath: "./", // 打包后的位置，如果不设置这个静态资源会报错
     css: {
         //css处理器
         loaderOptions: {
@@ -42,6 +42,13 @@ module.exports = {
                         },
                     },
                 },
+            },
+            // 外部扩展
+            externals: {
+                "echarts": "echarts",
+                "vue": "Vue",
+                "element-ui": "ELEMENT",
+                "vue-router": "VueRouter",
             },
         };
     },

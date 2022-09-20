@@ -1,9 +1,9 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 // 引入 element-ui
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// import ElementUI from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
 
 // 引入全局过滤器
 import * as filters from '@/filters';
@@ -22,7 +22,7 @@ Vue.config.productionTip = false
 // 创建一个中央事件总线
 Vue.prototype.$bus = new Vue();
 // 使用element-ui
-Vue.use(ElementUI);
+// Vue.use(ElementUI);
 new Vue({
     router,
     render: h => h(App)

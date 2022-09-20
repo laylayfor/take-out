@@ -57,3 +57,11 @@ export const addGoodsReq = (data) => {
         data,
     })
 };
+/** 获取商品列表 */
+export const getGoodsListReq = (params) => {
+    return request({
+        url: '/goods/list',
+        method: 'get',
+        params,
+    })
+}

@@ -18,63 +18,45 @@
       :unique-opened="false"
       router
     >
-      <!-- 有子盒子 -->
+      <template v-for="item in menu">
+        <el-menu-item
+          :index="item.path"
+          :key="item.meta.path"
+          v-if="item.children.length === 1"
+        >
+          <i :class="item.meta.icon"></i>
+          <span slot="title">{{ item.meta.title }}</span>
+        </el-menu-item>
 
-      <!-- 后台首页 -->
-      <el-menu-item index="/home">
-        <i class="iconfont icon-home"></i>
-        <span slot="title">后台首页</span>
-      </el-menu-item>
-
-      <!-- 订单管理 -->
-      <el-menu-item index="/order">
-        <i class="iconfont icon-order"></i>
-        <span slot="title">订单管理</span>
-      </el-menu-item>
-
-      <!-- 商品管理 -->
-      <el-submenu index="/goods">
-        <template slot="title">
-          <i class="iconfont icon-goods"></i>
-          <span>商品管理</span>
-        </template>
-        <el-menu-item index="/goods/goods-list">商品列表</el-menu-item>
-        <el-menu-item index="/goods/goods-add">商品添加</el-menu-item>
-        <el-menu-item index="/goods/goods-cate">商品分类</el-menu-item>
-      </el-submenu>
-      <!-- 店铺管理 -->
-      <el-menu-item index="/shop">
-        <i class="iconfont icon-shop"></i>
-        <span slot="title">店铺管理</span>
-      </el-menu-item>
-
-      <!-- 账号管理 -->
-      <el-submenu index="/account">
-        <template slot="title">
-          <i class="iconfont icon-account"></i>
-          <span>账号管理</span>
-        </template>
-        <el-menu-item index="/account/account-list">账号列表</el-menu-item>
-        <el-menu-item index="/account/account-add">添加账号</el-menu-item>
-        <el-menu-item index="/account/password-modify">修改密码</el-menu-item>
-        <el-menu-item index="/account/person">个人中心</el-menu-item>
-      </el-submenu>
-
-      <!-- 销售统计 -->
-      <el-submenu index="/total">
-        <template slot="title">
-          <i class="iconfont icon-total"></i>
-          <span>销售统计</span>
-        </template>
-        <el-menu-item index="/total/total-goods">商品统计</el-menu-item>
-        <el-menu-item index="/total/total-order">订单统计</el-menu-item>
-      </el-submenu>
+        <el-submenu :index="item.meta.path" :key="item.meta.path" v-else>
+          <template slot="title">
+            <i :class="item.meta.icon"></i>
+            <span>{{ item.meta.title }}</span>
+          </template>
+          <el-menu-item
+            v-for="subItem in item.children"
+            :key="subItem.meta.path"
+            :index="subItem.path"
+            >{{ subItem.meta.title }}</el-menu-item
+          >
+        </el-submenu>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script>
-export default {};
+import local from "@/utils/local";
+export default {
+  data() {
+    return {
+      menu: [],
+    };
+  },
+  created() {
+    this.menu = local.get("menu");
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -91,7 +73,10 @@ export default {};
     }
   }
 }
-
+:deep(.el-submenu__title i) {
+  font-size: 20px !important;
+  color: $white;
+}
 .left-menu {
   flex: none;
   width: 210px;
